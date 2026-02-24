@@ -1,90 +1,41 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './index.css';
-import TopBar from './components/layout/TopBar';
-import ContextHeader from './components/layout/ContextHeader';
-import MainLayout from './components/layout/MainLayout';
-import ProofFooter from './components/layout/ProofFooter';
-import Button from './components/ui/Button';
-import Card from './components/ui/Card';
-import Input from './components/ui/Input';
-import Badge from './components/ui/Badge';
+import NavBar from './components/layout/NavBar';
+import Page from './components/layout/Page';
 
-function App() {
-  const secondaryContent = (
-    <div className="secondary-container">
-      <Card title="Step Explanation">
-        <p style={{ fontSize: '14px', marginBottom: 'var(--space-16)' }}>
-          This system uses a strict 70/30 split to maintain focus. Use the primary workspace for core tasks and this side panel for auxiliary information or configuration.
-        </p>
-        <Button variant="secondary" style={{ width: '100%' }}>View Documentation</Button>
-      </Card>
-
-      <Card title="Copyable Prompt">
-        <div style={{
-          padding: 'var(--space-16)',
-          background: 'rgba(0,0,0,0.03)',
-          borderRadius: 'var(--border-radius)',
-          fontSize: '13px',
-          fontFamily: 'monospace',
-          marginBottom: 'var(--space-16)'
-        }}>
-          system_init --mode calm --accent #880000 --font serif
-        </div>
-        <Button variant="secondary" style={{ width: '100%' }}>Copy Snippet</Button>
-      </Card>
-    </div>
-  );
-
+const App = () => {
   return (
-    <div className="app">
-      <TopBar step="1/1" status="Not Started" />
+    <Router>
+      <div className="app-shell">
+        <NavBar />
 
-      <ContextHeader
-        title="Foundation: Design System"
-        subtitle="A calm, intentional environment for building the next generation of job notifications."
-      />
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Navigate to="/dashboard" replace />} />
+            <Route path="/dashboard" element={<Page title="Dashboard" />} />
+            <Route path="/settings" element={<Page title="Settings" />} />
+            <Route path="/saved" element={<Page title="Saved" />} />
+            <Route path="/digest" element={<Page title="Digest" />} />
+            <Route path="/proof" element={<Page title="Proof" />} />
 
-      <MainLayout secondaryPanel={secondaryContent}>
-        <div className="max-width-text">
-          <section style={{ marginBottom: 'var(--space-64)' }}>
-            <h2 style={{ fontSize: '24px', marginBottom: 'var(--space-24)' }}>Core Components</h2>
-
-            <Card title="Interactive Elements">
-              <div style={{ display: 'flex', gap: 'var(--space-16)', marginBottom: 'var(--space-24)' }}>
-                <Button>Primary Action</Button>
-                <Button variant="secondary">Secondary Action</Button>
-              </div>
-
-              <Input
-                label="Organization Name"
-                placeholder="e.g. Acme Corp"
-                helperText="This name will appear on all outgoing job notifications."
-              />
-            </Card>
-
-            <Card title="Status & Indicators">
-              <div style={{ display: 'flex', gap: 'var(--space-16)' }}>
-                <Badge variant="neutral">Not Started</Badge>
-                <Badge variant="success">Shipped</Badge>
-              </div>
-            </Card>
-          </section>
-
-          <section>
-            <h2 style={{ fontSize: '24px', marginBottom: 'var(--space-24)' }}>Design Philosophy</h2>
-            <p style={{ marginBottom: 'var(--space-16)' }}>
-              Our design system is built on the principles of confidence and clarity. We avoid the "noise" typical of modern SaaS by eliminating unnecessary animations, gradients, and shadows.
-            </p>
-            <p>
-              By adhering to a strict spacing scale and limited color palette, we ensure every interface feels cohesive and high-end.
-            </p>
-          </section>
-        </div>
-      </MainLayout >
-
-      <ProofFooter />
-    </div >
+            {/* 404 Page */}
+            <Route
+              path="*"
+              element={
+                <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
+                  <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-16)' }}>Page Not Found</h1>
+                  <p style={{ opacity: 0.6, fontSize: '18px' }}>
+                    The page you are looking for does not exist.
+                  </p>
+                </div>
+              }
+            />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
