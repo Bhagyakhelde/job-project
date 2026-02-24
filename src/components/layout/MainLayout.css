@@ -1,0 +1,33 @@
+.main-layout {
+    display: flex;
+    min-height: calc(100vh - 64px);
+    /* Subtract TopBar height */
+}
+
+.primary-workspace {
+    flex: 0 0 70%;
+    padding: var(--space-24);
+    border-right: 1px solid var(--border-color);
+}
+
+.secondary-panel {
+    flex: 0 0 30%;
+    padding: var(--space-40) var(--space-24);
+    background: var(--bg-color);
+}
+
+@media (max-width: 1024px) {
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .primary-workspace,
+    .secondary-panel {
+        flex: 0 0 100%;
+    }
+
+    .primary-workspace {
+        border-right: none;
+        border-bottom: 1px solid var(--border-color);
+    }
+}

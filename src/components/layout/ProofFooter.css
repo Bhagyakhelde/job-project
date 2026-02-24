@@ -1,0 +1,33 @@
+.proof-footer {
+    border-top: 1px solid var(--border-color);
+    padding: var(--space-24) 0;
+    background: var(--bg-color);
+}
+
+.proof-container {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-40);
+    max-width: var(--max-width-text);
+    margin: 0 auto;
+}
+
+.proof-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--border-color);
+}
+
+.status-dot.completed {
+    background-color: var(--success-color);
+}
