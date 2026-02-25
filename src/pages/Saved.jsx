@@ -1,45 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { jobsData } from '../data/jobsData';
 import JobCard from '../components/jobs/JobCard';
 import JobModal from '../components/jobs/JobModal';
+import { calculateMatchScore } from '../utils/matchEngine';
 
 const Saved = () => {
-    const [savedJobs, setSavedJobs] = useState([]);
-    const [selectedJob, setSelectedJob] = useState(null);
     const [savedJobIds, setSavedJobIds] = useState([]);
+    const [preferences, setPreferences] = useState(null);
+    const [selectedJob, setSelectedJob] = useState(null);
 
     useEffect(() => {
+        // Load preferences
+        const savedPrefs = localStorage.getItem('jobTrackerPreferences');
+        if (savedPrefs) {
+            setPreferences(JSON.parse(savedPrefs));
+        }
+
         // Load saved jobs from localStorage
         const savedIds = JSON.parse(localStorage.getItem('savedJobs') || '[]');
         setSavedJobIds(savedIds);
-
-        const filtered = jobsData.filter(job => savedIds.includes(job.id));
-        setSavedJobs(filtered);
     }, []);
 
+    const savedJobsWithScores = useMemo(() => {
+        return jobsData
+            .filter(job => savedJobIds.includes(job.id))
+            .map(job => ({
+                ...job,
+                matchScore: preferences ? calculateMatchScore(job, preferences) : null
+            }));
+    }, [savedJobIds, preferences]);
+
     const handleSaveToggle = (jobId) => {
-        // Since we are on the saved page, "toggling" usually means removing
         const updatedIds = savedJobIds.filter(id => id !== jobId);
         setSavedJobIds(updatedIds);
         localStorage.setItem('savedJobs', JSON.stringify(updatedIds));
-
-        const updatedJobs = savedJobs.filter(job => job.id !== jobId);
-        setSavedJobs(updatedJobs);
     };
 
     return (
         <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
             <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-40)' }}>Saved Jobs</h1>
 
-            {savedJobs.length > 0 ? (
+            {savedJobsWithScores.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-24)' }}>
-                    {savedJobs.map(job => (
+                    {savedJobsWithScores.map(job => (
                         <JobCard
                             key={job.id}
                             job={job}
                             isSaved={true}
                             onSave={handleSaveToggle}
                             onView={setSelectedJob}
+                            matchScore={job.matchScore}
                         />
                     ))}
                 </div>

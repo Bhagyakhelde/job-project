@@ -1,6 +1,5 @@
 import React from 'react';
 import './FilterBar.css';
-import Input from '../ui/Input';
 
 const FilterBar = ({ filters, onFilterChange }) => {
     const handleChange = (e) => {
@@ -62,6 +61,8 @@ const FilterBar = ({ filters, onFilterChange }) => {
 
                     <select name="sort" className="filter-select" value={filters.sort} onChange={handleChange}>
                         <option value="latest">Latest First</option>
+                        <option value="match">Highest Match</option>
+                        <option value="salary">Highest Salary</option>
                         <option value="oldest">Oldest First</option>
                     </select>
                 </div>

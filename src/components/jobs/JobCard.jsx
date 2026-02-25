@@ -2,15 +2,30 @@ import React from 'react';
 import './JobCard.css';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
+import { getScoreColor } from '../../utils/matchEngine';
 
-const JobCard = ({ job, isSaved, onSave, onView }) => {
+const JobCard = ({ job, isSaved, onSave, onView, matchScore = null }) => {
     const { title, company, location, mode, experience, salaryRange, source, postedDaysAgo, applyUrl } = job;
 
     return (
         <div className="job-card">
             <div className="job-card-header">
                 <div className="job-card-main-info">
-                    <h3 className="job-card-title">{title}</h3>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                        <h3 className="job-card-title">{title}</h3>
+                        {matchScore !== null && (
+                            <span className="match-score-badge" style={{
+                                backgroundColor: getScoreColor(matchScore),
+                                color: '#fff',
+                                padding: '2px 8px',
+                                borderRadius: '12px',
+                                fontSize: '12px',
+                                fontWeight: '600'
+                            }}>
+                                {matchScore}% Match
+                            </span>
+                        )}
+                    </div>
                     <p className="job-card-company">{company}</p>
                 </div>
                 <Badge variant={source === 'LinkedIn' ? 'neutral' : 'success'}>{source}</Badge>
