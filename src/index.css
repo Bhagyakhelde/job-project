@@ -1,97 +1,12 @@
-:root {
-  /* Colors - Maximum 4 core colors */
-  --bg-primary: #F7F6F3;
-  --text-primary: #111111;
-  --accent-color: #8B0000;
-  --success-color: #4B6344;
-  /* Muted Green */
-  --warning-color: #927345;
-  /* Muted Amber */
-  --border-color: rgba(0, 0, 0, 0.08);
+@import "tailwindcss";
 
-  /* Typography */
-  --font-serif: "Crimson Pro", "Playfair Display", serif;
-  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-
-  /* Spacing Scale - Strictly 8/16/24/40/64 */
-  --space-8: 8px;
-  --space-16: 16px;
-  --space-24: 24px;
-  --space-40: 40px;
-  --space-64: 64px;
-
-  /* Transitions */
-  --transition-fast: 150ms ease-in-out;
-  --transition-normal: 200ms ease-in-out;
-
-  /* Others */
-  --border-radius: 4px;
-  --max-width-text: 720px;
+@theme {
+  --color-primary: hsl(245, 58%, 51%);
+  --color-primary-foreground: hsl(0, 0%, 100%);
 }
 
-/* Global Reset */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-size: 17px;
-  /* 16-18px range */
-  line-height: 1.7;
-  /* 1.6-1.8 range */
-  -webkit-font-smoothing: antialiased;
-}
-
-h1,
-h2,
-h3,
-h4 {
-  font-family: var(--font-serif);
-  font-weight: 600;
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-}
-
-/* Base Layout Helpers */
-.max-width-text {
-  max-width: var(--max-width-text);
-}
-
-.primary-workspace {
-  flex: 0 0 70%;
-}
-
-.secondary-panel {
-  flex: 0 0 30%;
-  border-left: 1px solid var(--border-color);
-  padding: var(--space-40);
-  background: white;
-}
-
-/* Premium Typography Patterns */
-.context-headline {
-  font-size: 40px;
-  margin-bottom: var(--space-16);
-}
-
-.context-subtext {
-  font-size: 18px;
-  opacity: 0.6;
-  max-width: var(--max-width-text);
-}
-
-/* Interaction Rules */
-button,
-a {
-  transition: all var(--transition-fast);
-}
-
-input:focus {
-  outline: none;
-  border-color: var(--text-primary);
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900;
+  }
 }
