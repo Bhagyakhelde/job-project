@@ -1,9 +1,7 @@
 .navbar {
-    background-color: var(--bg-color);
+    background-color: var(--bg-primary);
     border-bottom: 1px solid var(--border-color);
-    height: 64px;
-    display: flex;
-    align-items: center;
+    padding: var(--space-16) var(--space-40);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -13,16 +11,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    padding: 0 var(--space-24);
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
 }
 
 .navbar-logo {
     font-family: var(--font-serif);
-    font-weight: 700;
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: 600;
     color: var(--text-primary);
     text-decoration: none;
 }
@@ -33,13 +29,17 @@
 }
 
 .nav-link {
-    font-size: 15px;
+    font-family: var(--font-sans);
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-primary);
     text-decoration: none;
-    padding: var(--space-8) 0;
-    position: relative;
-    transition: opacity var(--transition-fast);
+    opacity: 0.6;
+}
+
+.nav-link.active {
+    opacity: 1;
+    font-weight: 600;
 }
 
 .nav-link:hover {

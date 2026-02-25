@@ -14,34 +14,29 @@ import Ship from './pages/Ship';
 const App = () => {
   return (
     <Router>
-      <div className="app-shell">
-        <NavBar />
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/saved" element={<Saved />} />
+        <Route path="/digest" element={<Digest />} />
+        <Route path="/proof" element={<Proof />} />
+        <Route path="/jt/07-test" element={<TestChecklist />} />
+        <Route path="/jt/08-ship" element={<Ship />} />
 
-        <main className="main-content">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/saved" element={<Saved />} />
-            <Route path="/digest" element={<Digest />} />
-            <Route path="/proof" element={<Proof />} />
-            <Route path="/jt/07-test" element={<TestChecklist />} />
-            <Route path="/jt/08-ship" element={<Ship />} />
-
-            <Route
-              path="*"
-              element={
-                <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
-                  <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-16)' }}>Page Not Found</h1>
-                  <p style={{ opacity: 0.6, fontSize: '18px' }}>
-                    The page you are looking for does not exist.
-                  </p>
-                </div>
-              }
-            />
-          </Routes>
-        </main>
-      </div>
+        <Route
+          path="*"
+          element={
+            <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
+              <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-16)' }}>Page Not Found</h1>
+              <p style={{ opacity: 0.6, fontSize: '18px' }}>
+                The page you are looking for does not exist.
+              </p>
+            </div>
+          }
+        />
+      </Routes>
     </Router>
   );
 };
