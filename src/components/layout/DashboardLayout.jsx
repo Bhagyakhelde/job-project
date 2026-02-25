@@ -7,9 +7,10 @@ const DashboardLayout = () => {
 
     const navItems = [
         { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
+        { name: 'Analyze JD', path: '/analyze', icon: ClipboardCheck },
+        { name: 'History', path: '/history', icon: BookOpen },
         { name: 'Practice', path: '/practice', icon: Code },
         { name: 'Assessments', path: '/assessments', icon: ClipboardCheck },
-        { name: 'Resources', path: '/resources', icon: BookOpen },
         { name: 'Profile', path: '/profile', icon: User },
     ];
 

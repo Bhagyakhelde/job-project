@@ -8,6 +8,9 @@ import Practice from './pages/Practice';
 import Assessments from './pages/Assessments';
 import Resources from './pages/Resources';
 import Profile from './pages/Profile';
+import Analyze from './pages/Analyze';
+import Results from './pages/Results';
+import History from './pages/History';
 
 const App = () => {
   return (
@@ -19,6 +22,9 @@ const App = () => {
         {/* Dashboard Area (Private-like paths) */}
         <Route element={<DashboardLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/analyze" element={<Analyze />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/results" element={<Results />} />
           <Route path="/practice" element={<Practice />} />
           <Route path="/assessments" element={<Assessments />} />
           <Route path="/resources" element={<Resources />} />
