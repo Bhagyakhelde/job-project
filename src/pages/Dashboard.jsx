@@ -4,6 +4,7 @@ import JobCard from '../components/jobs/JobCard';
 import FilterBar from '../components/jobs/FilterBar';
 import JobModal from '../components/jobs/JobModal';
 import { calculateMatchScore } from '../utils/matchEngine';
+import MainLayout from '../components/layout/MainLayout';
 import Button from '../components/ui/Button';
 import Toast from '../components/ui/Toast';
 import { useNavigate } from 'react-router-dom';
@@ -121,8 +122,13 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 'var(--space-40)' }}>
+        <MainLayout
+            title="Job Discovery"
+            subtext="Discover top opportunities from India's leading tech companies tailored to your profile."
+            step="05"
+            status="In Progress"
+        >
+            <div style={{ marginBottom: 'var(--space-40)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h1 style={{ fontSize: '40px', margin: 0 }}>Explore Jobs</h1>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                     <span style={{ fontSize: '14px', fontWeight: '500', opacity: 0.7 }}>Threshold Filter</span>
@@ -204,7 +210,7 @@ const Dashboard = () => {
             {selectedJob && (
                 <JobModal job={selectedJob} onClose={() => setSelectedJob(null)} />
             )}
-        </div>
+        </MainLayout>
     );
 };
 

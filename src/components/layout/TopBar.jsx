@@ -1,19 +1,21 @@
 import React from 'react';
 import './TopBar.css';
 
-const TopBar = ({ step = "1/3", status = "Not Started" }) => {
+const TopBar = ({ projectName = 'Job Notification Tracker', step = '05', totalSteps = '08', status = 'In Progress' }) => {
     return (
         <div className="top-bar">
             <div className="top-bar-left">
-                <span className="app-name">Job Notification App</span>
+                <span className="project-name">{projectName}</span>
             </div>
+
             <div className="top-bar-center">
-                <span className="progress-indicator">Step {step}</span>
+                <span className="progress-indicator">Step {step} / {totalSteps}</span>
             </div>
+
             <div className="top-bar-right">
-                <div className={`status-badge ${status.toLowerCase().replace(' ', '-')}`}>
+                <span className={`status-badge status-${status.toLowerCase().replace(' ', '-')}`}>
                     {status}
-                </div>
+                </span>
             </div>
         </div>
     );

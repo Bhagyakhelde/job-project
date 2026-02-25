@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import Card from '../components/ui/Card';
 import Input from '../components/ui/Input';
 import Button from '../components/ui/Button';
+import MainLayout from '../components/layout/MainLayout';
 
 const Settings = () => {
     const [preferences, setPreferences] = useState({
@@ -72,9 +71,12 @@ const Settings = () => {
     ];
 
     return (
-        <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
-            <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-40)' }}>Settings</h1>
-
+        <MainLayout
+            title="Preferences"
+            subtext="Configure your ideal career parameters to activate intelligent matching."
+            step="05"
+            status="In Progress"
+        >
             <Card title="Detailed Preferences">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-24)' }}>
 
@@ -182,7 +184,7 @@ const Settings = () => {
                     </div>
                 </div>
             </Card>
-        </div>
+        </MainLayout>
     );
 };
 

@@ -1,9 +1,14 @@
 import React from 'react';
 import './Button.css';
 
-const Button = ({ children, variant = "primary", ...props }) => {
+const Button = ({ children, variant = 'primary', onClick, disabled, style }) => {
     return (
-        <button className={`btn ${variant}`} {...props}>
+        <button
+            className={`btn btn-${variant}`}
+            onClick={onClick}
+            disabled={disabled}
+            style={style}
+        >
             {children}
         </button>
     );

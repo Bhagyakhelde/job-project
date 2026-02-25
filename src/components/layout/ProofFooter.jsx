@@ -1,25 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ProofFooter.css';
 
-const ProofFooter = ({ items = [] }) => {
-    const defaultItems = [
-        { label: 'UI Built', completed: true },
-        { label: 'Logic Working', completed: false },
-        { label: 'Test Passed', completed: false },
-        { label: 'Deployed', completed: false }
-    ];
+const ProofFooter = () => {
+    const [proofs, setProofs] = useState({
+        uiBuilt: false,
+        logicWorking: false,
+        testPassed: false,
+        deployed: false
+    });
 
-    const displayItems = items.length > 0 ? items : defaultItems;
+    const toggle = (key) => setProofs(prev => ({ ...prev, [key]: !prev[key] }));
 
     return (
         <footer className="proof-footer">
             <div className="proof-container">
-                {displayItems.map((item, index) => (
-                    <div key={index} className="proof-item">
-                        <span className={`status-dot ${item.completed ? 'completed' : ''}`}></span>
-                        <span className="proof-label">{item.label}</span>
-                    </div>
-                ))}
+                <label className="proof-item">
+                    <input type="checkbox" checked={proofs.uiBuilt} onChange={() => toggle('uiBuilt')} />
+                    <span>UI Built</span>
+                </label>
+                <label className="proof-item">
+                    <input type="checkbox" checked={proofs.logicWorking} onChange={() => toggle('logicWorking')} />
+                    <span>Logic Working</span>
+                </label>
+                <label className="proof-item">
+                    <input type="checkbox" checked={proofs.testPassed} onChange={() => toggle('testPassed')} />
+                    <span>Test Passed</span>
+                </label>
+                <label className="proof-item">
+                    <input type="checkbox" checked={proofs.deployed} onChange={() => toggle('deployed')} />
+                    <span>Deployed</span>
+                </label>
+            </div>
+            <div className="proof-input-area">
+                <input type="text" placeholder="Enter proof URL or comment..." className="proof-input" />
             </div>
         </footer>
     );

@@ -1,8 +1,9 @@
+```javascript
 import React, { useState, useEffect, useMemo } from 'react';
 import { jobsData } from '../data/jobsData';
 import { calculateMatchScore, getScoreColor } from '../utils/matchEngine';
-import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import MainLayout from '../components/layout/MainLayout';
 import { useNavigate } from 'react-router-dom';
 
 const Digest = () => {
@@ -21,7 +22,7 @@ const Digest = () => {
         }
 
         // Load existing digest for today
-        const existingDigest = localStorage.getItem(`jobTrackerDigest_${dateString}`);
+        const existingDigest = localStorage.getItem(`jobTrackerDigest_${ dateString } `);
         if (existingDigest) {
             setDigest(JSON.parse(existingDigest));
         }
@@ -53,7 +54,7 @@ const Digest = () => {
                 .slice(0, 10);
 
             setDigest(topJobs);
-            localStorage.setItem(`jobTrackerDigest_${dateString}`, JSON.stringify(topJobs));
+            localStorage.setItem(`jobTrackerDigest_${ dateString } `, JSON.stringify(topJobs));
             setIsGenerating(false);
         }, 1200);
     };
@@ -61,31 +62,31 @@ const Digest = () => {
     const copyToClipboard = () => {
         if (!digest) return;
         const text = digest.map((job, i) =>
-            `${i + 1}. ${job.title} @ ${job.company}\n   Location: ${job.location}\n   Match: ${job.matchScore}%\n   Apply: ${job.applyUrl}`
+            `${ i + 1 }. ${ job.title } @${ job.company } \n   Location: ${ job.location } \n   Match: ${ job.matchScore }%\n   Apply: ${ job.applyUrl } `
         ).join('\n\n');
 
-        navigator.clipboard.writeText(`My 9AM Job Digest - ${dateString}\n\n${text}`);
+        navigator.clipboard.writeText(`My 9AM Job Digest - ${ dateString } \n\n${ text } `);
         alert('Digest copied to clipboard!');
     };
 
     const createEmailDraft = () => {
         if (!digest) return;
-        const subject = encodeURIComponent(`My 9AM Job Digest - ${dateString}`);
+        const subject = encodeURIComponent(`My 9AM Job Digest - ${ dateString } `);
         const body = encodeURIComponent(
             digest.map(job =>
-                `${job.title} at ${job.company}\nMatch Score: ${job.matchScore}%\nApply: ${job.applyUrl}`
+                `${ job.title } at ${ job.company } \nMatch Score: ${ job.matchScore }%\nApply: ${ job.applyUrl } `
             ).join('\n\n')
         );
-        window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        window.location.href = `mailto:? subject = ${ subject }& body=${ body } `;
     };
 
     return (
-        <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
-            <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-16)' }}>Daily Digest</h1>
-            <p style={{ opacity: 0.6, marginBottom: 'var(--space-40)', fontSize: '18px' }}>
-                Your personalized 9AM roundup of the best-matched opportunities.
-            </p>
-
+        <MainLayout 
+            title="Daily Digest" 
+            subtext="Your personalized 9AM roundup of the best-matched opportunities."
+            step="06"
+            status="In Progress"
+        >
             {!preferences ? (
                 <div style={{
                     textAlign: 'center',
@@ -118,7 +119,7 @@ const Digest = () => {
                     <div className="digest-actions" style={{ marginBottom: 'var(--space-24)', display: 'flex', gap: 'var(--space-16)' }}>
                         <Button variant="secondary" onClick={copyToClipboard}>Copy Digest to Clipboard</Button>
                         <Button variant="secondary" onClick={createEmailDraft}>Create Email Draft</Button>
-                        <Button variant="secondary" onClick={() => { localStorage.removeItem(`jobTrackerDigest_${dateString}`); setDigest(null); }}>Reset</Button>
+                        <Button variant="secondary" onClick={() => { localStorage.removeItem(`jobTrackerDigest_${ dateString } `); setDigest(null); }}>Reset</Button>
                     </div>
 
                     <div className="email-newsletter" style={{
@@ -210,7 +211,7 @@ const Digest = () => {
                     </div>
                 </div>
             )}
-        </div>
+        </MainLayout>
     );
 };
 

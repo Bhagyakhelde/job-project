@@ -4,6 +4,7 @@ import JobCard from '../components/jobs/JobCard';
 import JobModal from '../components/jobs/JobModal';
 import { calculateMatchScore } from '../utils/matchEngine';
 import Toast from '../components/ui/Toast';
+import MainLayout from '../components/layout/MainLayout';
 
 const Saved = () => {
     const [savedJobIds, setSavedJobIds] = useState([]);
@@ -65,9 +66,12 @@ const Saved = () => {
     };
 
     return (
-        <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
-            <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-40)' }}>Saved Jobs</h1>
-
+        <MainLayout
+            title="Saved Jobs"
+            subtext="Your personal collection of high-matched opportunities."
+            step="05"
+            status="In Progress"
+        >
             {savedJobsWithScores.length > 0 ? (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-24)' }}>
                     {savedJobsWithScores.map(job => (
@@ -103,7 +107,7 @@ const Saved = () => {
             )}
 
             {toast && <Toast message={toast.message} type={toast.type} onClear={() => setToast(null)} />}
-        </div>
+        </MainLayout>
     );
 };
 

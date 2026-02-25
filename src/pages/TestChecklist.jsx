@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Card from '../components/ui/Card';
 import Button from '../components/ui/Button';
+import MainLayout from '../components/layout/MainLayout';
 
 const checklistItems = [
     { id: 1, label: 'Preferences persist after refresh', tooltip: 'Set skills in Settings, refresh, check if they are still there.' },
@@ -38,12 +39,12 @@ const TestChecklist = () => {
     const isReady = passedCount === 10;
 
     return (
-        <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
-            <div style={{ marginBottom: 'var(--space-40)' }}>
-                <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-8)' }}>Test Verification</h1>
-                <p style={{ opacity: 0.6, fontSize: '18px' }}>Ensure all features meet the premium quality standard before ship.</p>
-            </div>
-
+        <MainLayout
+            title="Test Verification"
+            subtext="Ensure all features meet the premium quality standard before ship."
+            step="08"
+            status="In Progress"
+        >
             <div style={{
                 backgroundColor: isReady ? '#ecfdf5' : '#fff7ed',
                 padding: 'var(--space-24)',
@@ -132,7 +133,7 @@ const TestChecklist = () => {
                     </Button>
                 </a>
             </div>
-        </div>
+        </MainLayout>
     );
 };
 

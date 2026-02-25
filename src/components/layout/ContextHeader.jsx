@@ -1,11 +1,11 @@
 import React from 'react';
 import './ContextHeader.css';
 
-const ContextHeader = ({ title, subtitle }) => {
+const ContextHeader = ({ title, subtext }) => {
     return (
         <header className="context-header">
-            <h1 className="context-title">{title}</h1>
-            <p className="context-subtitle">{subtitle}</p>
+            <h1 className="context-headline">{title}</h1>
+            {subtext && <p className="context-subtext">{subtext}</p>}
         </header>
     );
 };

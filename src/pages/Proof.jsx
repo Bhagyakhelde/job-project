@@ -1,13 +1,19 @@
 import React from 'react';
+import Card from '../components/ui/Card';
+import MainLayout from '../components/layout/MainLayout';
 
 const Proof = () => {
     return (
-        <div className="max-width-text" style={{ padding: 'var(--space-64) var(--space-24)' }}>
-            <h1 style={{ fontSize: '40px', marginBottom: 'var(--space-16)' }}>Proof</h1>
-            <p style={{ opacity: 0.6, fontSize: '18px' }}>
-                This section will be used for artifact collection and technical evidence.
-            </p>
-        </div>
+        <MainLayout
+            title="Evidence of Work"
+            subtext="Proof of implementation for all project phases."
+            step="08"
+            status="In Progress"
+        >
+            <Card title="Implementation Proof">
+                <p>All phases from 1 to 8 have been implemented following the premium KodNest design system.</p>
+            </Card>
+        </MainLayout>
     );
 };
 
