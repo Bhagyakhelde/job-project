@@ -1,0 +1,67 @@
+.toast-container {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.toast {
+    background: var(--text-color);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    letter-spacing: 0.02em;
+}
+
+.toast-success {
+    border-left: 4px solid var(--success-color);
+}
+
+.toast-info {
+    border-left: 4px solid #3b82f6;
+}
+
+/* Applied Blue */
+.toast-error {
+    border-left: 4px solid #ef4444;
+}
+
+/* Rejected Red */
+
+/* Animations */
+.fade-in {
+    animation: toast-fade-in 0.3s ease-out forwards;
+}
+
+.fade-out {
+    animation: toast-fade-out 0.3s ease-in forwards;
+}
+
+@keyframes toast-fade-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, 20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes toast-fade-out {
+    from {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-50%, -20px);
+    }
+}

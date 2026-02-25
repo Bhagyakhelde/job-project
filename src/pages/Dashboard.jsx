@@ -5,18 +5,22 @@ import FilterBar from '../components/jobs/FilterBar';
 import JobModal from '../components/jobs/JobModal';
 import { calculateMatchScore } from '../utils/matchEngine';
 import Button from '../components/ui/Button';
+import Toast from '../components/ui/Toast';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
     const navigate = useNavigate();
     const [preferences, setPreferences] = useState(null);
     const [showOnlyMatches, setShowOnlyMatches] = useState(false);
+    const [statuses, setStatuses] = useState({});
+    const [toast, setToast] = useState(null);
     const [filters, setFilters] = useState({
         keyword: '',
         location: '',
         mode: '',
         experience: '',
         source: '',
+        status: 'All',
         sort: 'latest'
     });
     const [selectedJob, setSelectedJob] = useState(null);
@@ -33,22 +37,46 @@ const Dashboard = () => {
             }
         }
 
+        // Load statuses
+        const savedStatuses = JSON.parse(localStorage.getItem('jobTrackerStatuses') || '{}');
+        setStatuses(savedStatuses);
+
         // Load saved jobs
         const saved = JSON.parse(localStorage.getItem('savedJobs') || '[]');
         setSavedJobIds(saved);
     }, []);
 
+    const handleStatusChange = (jobId, newStatus) => {
+        const updatedStatuses = { ...statuses, [jobId]: newStatus };
+        setStatuses(updatedStatuses);
+        localStorage.setItem('jobTrackerStatuses', JSON.stringify(updatedStatuses));
+
+        // Log history for digest
+        const history = JSON.parse(localStorage.getItem('jobTrackerStatusHistory') || '[]');
+        const job = jobsData.find(j => j.id === jobId);
+        history.unshift({
+            jobId,
+            title: job.title,
+            company: job.company,
+            status: newStatus,
+            date: new Date().toLocaleString()
+        });
+        localStorage.setItem('jobTrackerStatusHistory', JSON.stringify(history.slice(0, 50)));
+
+        setToast({ message: `Status updated: ${newStatus}`, type: 'info' });
+    };
+
     const jobsWithScores = useMemo(() => {
         return jobsData.map(job => ({
             ...job,
             matchScore: preferences ? calculateMatchScore(job, preferences) : null,
-            // Extract numeric salary for sorting (e.g., "12–18 LPA" -> 18)
+            status: statuses[job.id] || 'Not Applied',
             numericSalary: (() => {
                 const match = job.salaryRange.match(/(\d+)/g);
                 return match ? parseInt(match[match.length - 1]) : 0;
             })()
         }));
-    }, [preferences]);
+    }, [preferences, statuses]);
 
     const filteredJobs = useMemo(() => {
         let results = jobsWithScores.filter(job => {
@@ -58,12 +86,13 @@ const Dashboard = () => {
             const matchMode = filters.mode === '' || job.mode === filters.mode;
             const matchExperience = filters.experience === '' || job.experience === filters.experience;
             const matchSource = filters.source === '' || job.source === filters.source;
+            const matchStatus = filters.status === 'All' || job.status === filters.status;
 
             // Match score threshold logic
             const matchThreshold = !showOnlyMatches ||
                 (job.matchScore !== null && job.matchScore >= (preferences?.minMatchScore || 0));
 
-            return matchKeyword && matchLocation && matchMode && matchExperience && matchSource && matchThreshold;
+            return matchKeyword && matchLocation && matchMode && matchExperience && matchSource && matchThreshold && matchStatus;
         });
 
         // Sorting Logic
@@ -157,6 +186,8 @@ const Dashboard = () => {
                             onSave={handleSaveToggle}
                             onView={setSelectedJob}
                             matchScore={job.matchScore}
+                            status={job.status}
+                            onStatusChange={handleStatusChange}
                         />
                     ))}
                 </div>
@@ -167,6 +198,8 @@ const Dashboard = () => {
                     </p>
                 </div>
             )}
+
+            {toast && <Toast message={toast.message} type={toast.type} onClear={() => setToast(null)} />}
 
             {selectedJob && (
                 <JobModal job={selectedJob} onClose={() => setSelectedJob(null)} />

@@ -9,6 +9,7 @@ const Digest = () => {
     const navigate = useNavigate();
     const [preferences, setPreferences] = useState(null);
     const [digest, setDigest] = useState(null);
+    const [statusHistory, setStatusHistory] = useState([]);
     const [dateString] = useState(new Date().toISOString().split('T')[0]);
     const [isGenerating, setIsGenerating] = useState(false);
 
@@ -24,6 +25,10 @@ const Digest = () => {
         if (existingDigest) {
             setDigest(JSON.parse(existingDigest));
         }
+
+        // Load status history
+        const savedHistory = JSON.parse(localStorage.getItem('jobTrackerStatusHistory') || '[]');
+        setStatusHistory(savedHistory);
     }, [dateString]);
 
     const generateDigest = () => {
@@ -163,6 +168,37 @@ const Digest = () => {
                         ) : (
                             <div style={{ textAlign: 'center', padding: 'var(--space-40) 0' }}>
                                 <p style={{ fontSize: '18px', opacity: 0.7 }}>No matching roles today. Check again tomorrow.</p>
+                            </div>
+                        )}
+
+                        {statusHistory.length > 0 && (
+                            <div className="status-history-section" style={{ marginTop: 'var(--space-64)', borderTop: '1px solid var(--border-color)', paddingTop: 'var(--space-40)' }}>
+                                <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '24px', marginBottom: 'var(--space-24)' }}>
+                                    Recent Status Updates
+                                </h3>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                    {statusHistory.slice(0, 5).map((log, i) => (
+                                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '14px' }}>
+                                            <div>
+                                                <span style={{ fontWeight: '600' }}>{log.title}</span>
+                                                <span style={{ opacity: 0.5 }}> @ {log.company}</span>
+                                            </div>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                                <span style={{
+                                                    padding: '2px 8px',
+                                                    borderRadius: '10px',
+                                                    backgroundColor: log.status === 'Applied' ? '#3b82f6' : (log.status === 'Rejected' ? '#ef4444' : (log.status === 'Selected' ? 'var(--success-color)' : '#888')),
+                                                    color: '#fff',
+                                                    fontSize: '11px',
+                                                    fontWeight: '600'
+                                                }}>
+                                                    {log.status}
+                                                </span>
+                                                <span style={{ opacity: 0.4, fontSize: '12px' }}>{log.date.split(',')[0]}</span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         )}
 

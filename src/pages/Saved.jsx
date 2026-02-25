@@ -3,10 +3,13 @@ import { jobsData } from '../data/jobsData';
 import JobCard from '../components/jobs/JobCard';
 import JobModal from '../components/jobs/JobModal';
 import { calculateMatchScore } from '../utils/matchEngine';
+import Toast from '../components/ui/Toast';
 
 const Saved = () => {
     const [savedJobIds, setSavedJobIds] = useState([]);
     const [preferences, setPreferences] = useState(null);
+    const [statuses, setStatuses] = useState({});
+    const [toast, setToast] = useState(null);
     const [selectedJob, setSelectedJob] = useState(null);
 
     useEffect(() => {
@@ -16,19 +19,44 @@ const Saved = () => {
             setPreferences(JSON.parse(savedPrefs));
         }
 
+        // Load statuses
+        const savedStatuses = JSON.parse(localStorage.getItem('jobTrackerStatuses') || '{}');
+        setStatuses(savedStatuses);
+
         // Load saved jobs from localStorage
         const savedIds = JSON.parse(localStorage.getItem('savedJobs') || '[]');
         setSavedJobIds(savedIds);
     }, []);
+
+    const handleStatusChange = (jobId, newStatus) => {
+        const updatedStatuses = { ...statuses, [jobId]: newStatus };
+        setStatuses(updatedStatuses);
+        localStorage.setItem('jobTrackerStatuses', JSON.stringify(updatedStatuses));
+
+        // Log history for digest
+        const history = JSON.parse(localStorage.getItem('jobTrackerStatusHistory') || '[]');
+        const job = jobsData.find(j => j.id === jobId);
+        history.unshift({
+            jobId,
+            title: job.title,
+            company: job.company,
+            status: newStatus,
+            date: new Date().toLocaleString()
+        });
+        localStorage.setItem('jobTrackerStatusHistory', JSON.stringify(history.slice(0, 50)));
+
+        setToast({ message: `Status updated: ${newStatus}`, type: 'info' });
+    };
 
     const savedJobsWithScores = useMemo(() => {
         return jobsData
             .filter(job => savedJobIds.includes(job.id))
             .map(job => ({
                 ...job,
-                matchScore: preferences ? calculateMatchScore(job, preferences) : null
+                matchScore: preferences ? calculateMatchScore(job, preferences) : null,
+                status: statuses[job.id] || 'Not Applied'
             }));
-    }, [savedJobIds, preferences]);
+    }, [savedJobIds, preferences, statuses]);
 
     const handleSaveToggle = (jobId) => {
         const updatedIds = savedJobIds.filter(id => id !== jobId);
@@ -50,6 +78,8 @@ const Saved = () => {
                             onSave={handleSaveToggle}
                             onView={setSelectedJob}
                             matchScore={job.matchScore}
+                            status={job.status}
+                            onStatusChange={handleStatusChange}
                         />
                     ))}
                 </div>
@@ -71,6 +101,8 @@ const Saved = () => {
             {selectedJob && (
                 <JobModal job={selectedJob} onClose={() => setSelectedJob(null)} />
             )}
+
+            {toast && <Toast message={toast.message} type={toast.type} onClear={() => setToast(null)} />}
         </div>
     );
 };

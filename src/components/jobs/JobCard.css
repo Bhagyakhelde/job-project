@@ -50,16 +50,20 @@
     margin-right: 4px;
 }
 
+.status-badge {
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 .job-card-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: var(--space-8);
-}
-
-.job-posted-time {
-    font-size: 13px;
-    opacity: 0.5;
+    margin-top: var(--space-24);
+    padding-top: var(--space-16);
+    border-top: 1px solid var(--border-color);
+    flex-wrap: wrap;
+    gap: var(--space-16);
 }
 
 .job-card-actions {
