@@ -16,7 +16,8 @@ const Dashboard = () => {
     // Readiness Circle constants
     const radius = 70;
     const circumference = 2 * Math.PI * radius;
-    const score = 72;
+    const rawScore = 72; // This can be changed for testing
+    const score = Math.min(100, Math.max(0, rawScore));
     const offset = circumference - (score / 100) * circumference;
 
     const assessments = [
@@ -24,6 +25,14 @@ const Dashboard = () => {
         { title: "System Design Review", time: "Wed, 2:00 PM", type: "Review" },
         { title: "HR Interview Prep", time: "Friday, 11:00 AM", type: "Prep" }
     ];
+
+    const practiceProgress = {
+        topic: "Dynamic Programming",
+        completed: 3,
+        total: 10
+    };
+
+    const isPracticeComplete = practiceProgress.completed === practiceProgress.total;
 
     const weekDays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
     const activeDays = [true, true, true, false, false, false, false];
@@ -61,7 +70,7 @@ const Dashboard = () => {
                                     strokeWidth="12"
                                     fill="transparent"
                                     strokeDasharray={circumference}
-                                    strokeDashoffset={circumference} // Start at full offset for animation
+                                    strokeDashoffset={circumference}
                                     className="text-primary transition-all duration-1000 ease-out"
                                     style={{ strokeDashoffset: offset }}
                                     strokeLinecap="round"
@@ -108,22 +117,39 @@ const Dashboard = () => {
                     <CardHeader>
                         <CardTitle className="flex items-center justify-between">
                             Continue Practice
-                            <span className="text-xs bg-indigo-50 text-primary px-2 py-1 rounded-full uppercase tracking-wider">In Progress</span>
+                            <span className={`text-xs px-2 py-1 rounded-full uppercase tracking-wider ${isPracticeComplete ? 'bg-green-50 text-green-600' : 'bg-indigo-50 text-primary'}`}>
+                                {isPracticeComplete ? 'Completed' : 'In Progress'}
+                            </span>
                         </CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <h4 className="text-xl font-bold text-slate-800 mb-2">Dynamic Programming</h4>
-                        <div className="flex justify-between items-center text-sm text-slate-500 mb-2">
-                            <span>Topic Completion</span>
-                            <span className="font-bold text-slate-700">3/10</span>
-                        </div>
-                        <div className="w-full bg-slate-100 h-2.5 rounded-full mb-6 overflow-hidden">
-                            <div className="bg-primary h-full rounded-full w-[30%]"></div>
-                        </div>
-                        <button className="w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
-                            Continue
-                            <ChevronRight className="w-4 h-4" />
-                        </button>
+                        {isPracticeComplete ? (
+                            <div className="py-6 text-center">
+                                <div className="bg-green-100 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <ChevronRight className="w-6 h-6 text-green-600 transform rotate-[-90deg]" />
+                                </div>
+                                <h4 className="text-xl font-bold text-slate-800 mb-2">All topics complete!</h4>
+                                <p className="text-sm text-slate-500">You've mastered all current modules.</p>
+                            </div>
+                        ) : (
+                            <>
+                                <h4 className="text-xl font-bold text-slate-800 mb-2">{practiceProgress.topic}</h4>
+                                <div className="flex justify-between items-center text-sm text-slate-500 mb-2">
+                                    <span>Topic Completion</span>
+                                    <span className="font-bold text-slate-700">{practiceProgress.completed}/{practiceProgress.total}</span>
+                                </div>
+                                <div className="w-full bg-slate-100 h-2.5 rounded-full mb-6 overflow-hidden">
+                                    <div
+                                        className="bg-primary h-full rounded-full transition-all duration-500"
+                                        style={{ width: `${(practiceProgress.completed / practiceProgress.total) * 100}%` }}
+                                    ></div>
+                                </div>
+                                <button className="w-full bg-slate-900 text-white py-3 rounded-xl font-bold hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+                                    Continue
+                                    <ChevronRight className="w-4 h-4" />
+                                </button>
+                            </>
+                        )}
                     </CardContent>
                 </Card>
 
@@ -148,8 +174,8 @@ const Dashboard = () => {
                             {weekDays.map((day, idx) => (
                                 <div key={idx} className="flex flex-col items-center gap-2">
                                     <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${activeDays[idx]
-                                            ? 'bg-primary text-white scale-110 shadow-lg shadow-indigo-100'
-                                            : 'bg-slate-100 text-slate-400'
+                                        ? 'bg-primary text-white scale-110 shadow-lg shadow-indigo-100'
+                                        : 'bg-slate-100 text-slate-400'
                                         }`}>
                                         {day}
                                     </div>
