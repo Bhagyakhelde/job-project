@@ -17,7 +17,7 @@ const NavBar = () => {
         <nav className="navbar">
             <div className="navbar-container">
                 <NavLink to="/" className="navbar-logo">
-                    Job Notification App
+                    Job Notification Tracker
                 </NavLink>
 
                 <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>

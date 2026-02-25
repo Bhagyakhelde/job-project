@@ -1,8 +1,13 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './index.css';
 import NavBar from './components/layout/NavBar';
-import Page from './components/layout/Page';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+import Settings from './pages/Settings';
+import Saved from './pages/Saved';
+import Digest from './pages/Digest';
+import Proof from './pages/Proof';
 
 const App = () => {
   return (
@@ -12,14 +17,13 @@ const App = () => {
 
         <main className="main-content">
           <Routes>
-            <Route path="/" element={<Navigate to="/dashboard" replace />} />
-            <Route path="/dashboard" element={<Page title="Dashboard" />} />
-            <Route path="/settings" element={<Page title="Settings" />} />
-            <Route path="/saved" element={<Page title="Saved" />} />
-            <Route path="/digest" element={<Page title="Digest" />} />
-            <Route path="/proof" element={<Page title="Proof" />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/saved" element={<Saved />} />
+            <Route path="/digest" element={<Digest />} />
+            <Route path="/proof" element={<Proof />} />
 
-            {/* 404 Page */}
             <Route
               path="*"
               element={
