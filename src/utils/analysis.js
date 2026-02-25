@@ -166,3 +166,21 @@ export const saveToHistory = (entry) => {
     localStorage.setItem('prep_history', JSON.stringify(history));
     return entry;
 };
+
+export const updateHistoryEntry = (updatedEntry) => {
+    const history = getHistory();
+    const index = history.findIndex(item => item.id === updatedEntry.id);
+    if (index !== -1) {
+        history[index] = updatedEntry;
+        localStorage.setItem('prep_history', JSON.stringify(history));
+    }
+    // Also update latest_analysis if it's the same ID
+    const latest = localStorage.getItem('latest_analysis');
+    if (latest) {
+        const latestObj = JSON.parse(latest);
+        if (latestObj.id === updatedEntry.id) {
+            localStorage.setItem('latest_analysis', JSON.stringify(updatedEntry));
+        }
+    }
+    return updatedEntry;
+};

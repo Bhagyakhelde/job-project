@@ -64,7 +64,9 @@ const History = () => {
                                     <div className="flex items-center gap-6">
                                         {/* Score Badge */}
                                         <div className="w-14 h-14 rounded-xl bg-indigo-50 border border-indigo-100 flex flex-col items-center justify-center">
-                                            <span className="text-lg font-black text-primary leading-none">{item.readinessScore}</span>
+                                            <span className="text-lg font-black text-primary leading-none">
+                                                {item.adjustedScore || item.readinessScore}
+                                            </span>
                                             <span className="text-[8px] font-bold text-primary/60 uppercase">Score</span>
                                         </div>
 
