@@ -8,6 +8,8 @@ import Settings from './pages/Settings';
 import Saved from './pages/Saved';
 import Digest from './pages/Digest';
 import Proof from './pages/Proof';
+import TestChecklist from './pages/TestChecklist';
+import Ship from './pages/Ship';
 
 const App = () => {
   return (
@@ -23,6 +25,8 @@ const App = () => {
             <Route path="/saved" element={<Saved />} />
             <Route path="/digest" element={<Digest />} />
             <Route path="/proof" element={<Proof />} />
+            <Route path="/jt/07-test" element={<TestChecklist />} />
+            <Route path="/jt/08-ship" element={<Ship />} />
 
             <Route
               path="*"
