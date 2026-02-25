@@ -11,6 +11,8 @@ const NavBar = () => {
         { name: 'Digest', path: '/digest' },
         { name: 'Settings', path: '/settings' },
         { name: 'Proof', path: '/proof' },
+        { name: 'Test', path: '/jt/07-test' },
+        { name: 'Ship', path: '/jt/08-ship' },
     ];
 
     return (
